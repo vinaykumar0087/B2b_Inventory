@@ -1,0 +1,99 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+lightning-breadcrumbs {
+    display: block;
+}
+
+.product-information {
+    display: flex;
+}
+
+figure {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+}
+
+img {
+    object-fit: contain;
+    
+}
+.image{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+
+}
+
+/* .heading {
+    flex-grow: 1;
+} */
+
+.details-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: stretch;
+    min-height: 400px;
+}
+.inventoryCount p,.errorMsg p {
+    color: #ff8914;
+    font-size: medium;
+}
+span{
+    color: black;
+}
+
+/* .price {
+    align-self: end;
+} */
+/* .notifyBtn{
+    --sds-c-button-brand-color-background: #c2fbd7;
+    --slds-c-button-brand-color-background-hover:#c2fbd7;
+    --slds-c-button-brand-color-border:#c2fbd7;
+    --slds-c-button-brand-color-border-hover:#c2fbd7;
+    --slds-c-button-radius-border:100px;
+    width: 100%;
+    display: grid;
+    height:3.3125rem;
+    --slds-c-button-brand-text-color: green;
+    text-align: center;
+    --slds-c-button-brand-text-color-hover :green;
+    --slds-c-button-shadow-focus : rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+} */
+
+.price-value{
+    padding-left: 20px;
+    font-weight: 900;
+    font-size: larger;
+}
+
+
+/* CSS Styling for narrow screens (e.g. phones) */
+@media only screen and (max-width: 48em) {
+    /* SLDS token: mqSmall */
+    .product-information {
+        flex-direction: column;
+    }
+
+    .details-area {
+        padding-top: var(--lwc-spacingSmall);
+    }
+
+    .image {
+        align-self: center;
+    }
+
+    figure {
+        width: 200px;
+        height: 200px;
+    }
+}
