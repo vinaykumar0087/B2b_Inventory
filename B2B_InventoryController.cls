@@ -89,38 +89,48 @@ public without sharing class B2B_InventoryController {
                     passedQuantity = (Decimal)dataMap.get(B2B_SetupConstants.QUANTITY);
                 }
                 
-                string orgUrl = Url.getOrgDomainUrl().toExternalForm();
-                string endpoint = orgUrl + B2B_SetupConstants.HTTP_SERVICE_APEX_REST + '/v1/Inventorysrc/';
-
-                Map<String,Object> mapRequestBody = new Map<String, Object>();
-                B2B_InventoryRestService.Request  b2breq = new B2B_InventoryRestService.Request();
-                b2breq.sku = productsku;
-                b2breq.quantity = passedQuantity;
-                b2breq.cartId = cartRecordId;
-                b2breq.checkCondition = condition;
-                b2breq.cartItemId = ctItemId;
-                mapRequestBody.put('request' ,b2breq);
-                system.debug(JSON.serialize(mapRequestBody));
-
-                Http http = new Http();
-                HttpRequest request = new HttpRequest();
-                request.setEndpoint(endpoint);
-                request.setHeader(B2B_SetupConstants.HTTP_AUTHORIZATION_HEADER, 'Bearer ' + UserInfo.getSessionId());
-                request.setHeader(B2B_SetupConstants.HTTP_CONTENT_TYPE, B2B_SetupConstants.HTTP_CONTENT_APP_JSON);
-              
-                request.setBody(JSON.serialize(mapRequestBody));
-                request.setMethod(B2B_SetupConstants.HTTP_REQUEST_PATCH);
-
-                HttpResponse response = http.send(request);
-                Integer statusCode = response.getStatusCode();
-                if(statusCode  == 200){
-                    resultMap.put(B2B_SetupConstants.IS_REQUEST_SUCCESS,true);
-                }
+                
+                
+                resultMap = updateInventoryFieldscall( productsku,passedQuantity,cartRecordId,condition,ctItemId);
             }
             return resultMap;    
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+    @AuraEnabled
+    public static Map<String,Object> updateInventoryFieldscall(String SKU,Decimal quantity,Id cartId,String Condition,Id cartItemId){
+    try{
+        Map<String,Object> resultMap = new Map<String,Object>();
+        Map<String,Object> mapRequestBody = new Map<String, Object>();
+        B2B_InventoryRestService.Request b2breq = new B2B_InventoryRestService.Request();
+        string orgUrl = Url.getOrgDomainUrl().toExternalForm();
+        string endpoint = orgUrl + B2B_SetupConstants.HTTP_SERVICE_APEX_REST + '/v1/Inventorysrc/';
+        b2breq.sku = SKU;
+        b2breq.quantity = quantity;
+        b2breq.cartId = cartId;
+        b2breq.checkCondition = Condition;
+        b2breq.cartItemId = cartItemId;
+        mapRequestBody.put('request' ,b2breq);
+        system.debug(JSON.serialize(mapRequestBody));
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(endpoint);
+        request.setHeader(B2B_SetupConstants.HTTP_AUTHORIZATION_HEADER, 'Bearer ' + UserInfo.getSessionId());
+        request.setHeader(B2B_SetupConstants.HTTP_CONTENT_TYPE, B2B_SetupConstants.HTTP_CONTENT_APP_JSON);
+        request.setBody(JSON.serialize(mapRequestBody));
+        request.setMethod(B2B_SetupConstants.HTTP_REQUEST_PATCH);
+        HttpResponse response = http.send(request);
+        Integer statusCode = response.getStatusCode();
+        if(statusCode == 200){
+            resultMap.put(B2B_SetupConstants.IS_REQUEST_SUCCESS,true);
+            }
+        return resultMap;
+            
+        }catch (Exception e){
+            throw new AuraHandledException(e.getMessage());
+        }
+        
     }
     @AuraEnabled
     public static Map<String,Object> createCases(){
