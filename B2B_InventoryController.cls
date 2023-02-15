@@ -1,5 +1,5 @@
 /**
-* @description       : It create Lead or case based in user type  
+* @description       : It create Lead or case based in user type
 * @author           : vinay
 * @group             :
 * @last modified on  : 19.Dec.2022
@@ -20,7 +20,6 @@ public without sharing class B2B_InventoryController {
                 system.debug('productsku>>>>>>>' + productsku);
                 string orgUrl = Url.getOrgDomainUrl().toExternalForm();
                 string endpoint = orgUrl + B2B_SetupConstants.HTTP_SERVICE_APEX_REST + '/v1/Inventorysrc/' + productsku;
-                
                 Http http = new Http();
                 HttpRequest request = new HttpRequest();
                 request.setEndpoint(endpoint);
@@ -30,7 +29,7 @@ public without sharing class B2B_InventoryController {
                 HttpResponse response = http.send(request);
                 system.debug(response);
                 system.debug(JSON.deserializeUntyped(response.getBody()));
-                 resultMap = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+                resultMap = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
 
                 Integer statusCode = response.getStatusCode();
                 system.debug('statusCode>>>>' + statusCode);
@@ -88,12 +87,9 @@ public without sharing class B2B_InventoryController {
                     productsku = cartItemObj.Sku;
                     passedQuantity = (Decimal)dataMap.get(B2B_SetupConstants.QUANTITY);
                 }
-                
-                
-                
-                resultMap = updateInventoryFieldscall( productsku,passedQuantity,cartRecordId,condition,ctItemId);
+              resultMap = updateInventoryFieldscall( productsku,passedQuantity,cartRecordId,condition,ctItemId);
             }
-            return resultMap;    
+            return resultMap;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
